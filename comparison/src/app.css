@@ -1,0 +1,99 @@
+:root {
+  color-scheme: dark;
+  --bg: #14161c;
+  --panel: #1e222b;
+  --line: #343a48;
+  --text: #e8ebf2;
+  --muted: #a8b0c0;
+  --ok: #1f6b45;
+  --wait: #6a5420;
+  --bad: #7a2e34;
+  --play: #2a4f86;
+}
+* { box-sizing: border-box }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.45 system-ui, sans-serif;
+}
+header, .controls, footer { padding: 16px 20px }
+h1 { font-size: 1.35rem; margin: 0 0 6px }
+h2 { font-size: 1.05rem; margin: 0 }
+.lede, footer, .engine { color: var(--muted) }
+.lede { margin: 0; max-width: 78ch }
+.controls { display: grid; gap: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line) }
+.row, fieldset label { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+button, .file, input[type="file"] { font: inherit }
+button {
+  background: #2c3342;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+button:disabled { opacity: 0.45; cursor: not-allowed }
+button.playing { background: var(--play); border-color: #4d74b0 }
+fieldset {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: grid;
+  gap: 6px;
+}
+#identity {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+#identity div { margin: 0 }
+dt { color: var(--muted); font-size: 0.78rem }
+dd { margin: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums }
+#timing-note { margin: 0; color: var(--muted) }
+#error {
+  margin: 0;
+  padding: 10px 20px;
+  background: var(--bad);
+}
+#error:empty { display: none }
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px;
+}
+article {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 0;
+}
+article header { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-bottom: 8px }
+.badge { margin: 0; border-radius: 999px; padding: 2px 8px; background: var(--wait); font-size: 0.78rem }
+.badge.ready { background: var(--ok) }
+.badge.error { background: var(--bad) }
+.stage {
+  height: 520px;
+  background: #101218;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+.meter, .status { font-variant-numeric: tabular-nums }
+.meter { min-height: 1.45em }
+footer { font-size: 0.85rem }
+footer a { color: #9ec1ff }
+@media (max-width: 980px) {
+  .panels { grid-template-columns: 1fr }
+  .stage { height: 440px }
+}

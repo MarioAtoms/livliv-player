@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local lip-sync comparison</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+  <h1>Local lip-sync comparison</h1>
+  <p class="lede">Same file, one engine audible at a time. Nothing is uploaded. LivLiv follows the audio. TalkingHead moves visemes only from timings you supply.</p>
+</header>
+
+<section class="controls" aria-label="Clip and playback">
+  <div class="row">
+    <label class="file">Audio file
+      <input id="file" type="file" accept=".wav,audio/wav,audio/*">
+    </label>
+    <button type="button" id="load-hello">Load bundled public-domain “hello”</button>
+    <button type="button" id="load-synthetic">Load synthetic tones</button>
+  </div>
+  <dl id="identity">
+    <div><dt>File</dt><dd id="id-name">none</dd></div>
+    <div><dt>Bytes</dt><dd id="id-bytes">—</dd></div>
+    <div><dt>SHA-256</dt><dd id="id-sha">—</dd></div>
+    <div><dt>Decoded</dt><dd id="id-audio">—</dd></div>
+  </dl>
+  <fieldset>
+    <legend>TalkingHead timings</legend>
+    <label><input type="radio" name="timing" value="none" checked> None — play audio, do not drive visemes</label>
+    <label><input type="radio" name="timing" value="bundled" id="timing-bundled" disabled> Bundled hello word window (that clip only)</label>
+    <label><input type="radio" name="timing" value="sidecar"> Sidecar JSON
+      <input id="sidecar" type="file" accept=".json,application/json">
+    </label>
+    <label><input type="radio" name="timing" value="fixture"> Synthetic unaligned fixture (engine proof, not a transcription)</label>
+    <p id="timing-note"></p>
+  </fieldset>
+  <div class="row">
+    <button type="button" id="play-livliv" disabled>Play LivLiv</button>
+    <button type="button" id="play-th" disabled>Play TalkingHead</button>
+    <button type="button" id="play-seq" disabled>Play LivLiv, then TalkingHead</button>
+    <button type="button" id="reset" disabled>Reset</button>
+  </div>
+  <p id="transport" role="status">Choose a file. Playback stays on this machine.</p>
+</section>
+
+<p id="error" role="alert"></p>
+
+<section class="panels">
+  <article id="panel-livliv">
+    <header>
+      <h2>LivLiv Player</h2>
+      <p class="badge" id="badge-livliv">loading</p>
+    </header>
+    <div class="stage"><canvas id="livliv-canvas"></canvas></div>
+    <p class="engine" id="livliv-engine">True engine: speech-band loudness envelope and spectral vowel cue. Output is mouthOpen and vowel, then the model’s closed / half / open / round / wide frames. It does not use phonemes.</p>
+    <p class="meter" id="livliv-meter" role="status">mouthOpen — · vowel — · frame —</p>
+    <p class="status" id="livliv-status" role="status">Loading character…</p>
+  </article>
+  <article id="panel-th">
+    <header>
+      <h2>TalkingHead</h2>
+      <p class="badge" id="badge-th">loading</p>
+    </header>
+    <div class="stage" id="th-stage"></div>
+    <p class="engine" id="th-engine">True engine: Oculus visemes from words plus timestamps (English letter-to-sound rules) or from viseme timestamps supplied with those words. Audio without that data does not move visemes. There is no amplitude-mouth fallback.</p>
+    <p class="meter" id="th-meter" role="status">viseme — · jawOpen —</p>
+    <p class="status" id="th-status" role="status">Loading avatar…</p>
+  </article>
+</section>
+
+<footer>
+  <p>Characters: LivLiv (livliv.ai), Aoi, non-commercial, Featured Characters License. TalkingHead avatar brunette.glb: Ready Player Me, CC BY-NC 4.0, unchanged. Code pins are in <a href="source.json">source.json</a>. Licenses: <a href="licenses/apache-2.0.txt">Apache-2.0</a>, <a href="licenses/talkinghead-mit.txt">TalkingHead MIT</a>, <a href="licenses/three-mit.txt">three.js MIT</a>, <a href="licenses/livliv-characters.md">LivLiv characters</a>, <a href="licenses/brunette-cc-by-nc.txt">brunette.glb</a>, <a href="licenses/hello-public-domain.txt">hello clip</a>.</p>
+  <p>Any TalkingHead view other than full also runs that project’s random expression baseline. Those twitches are not visemes. Read the viseme line.</p>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
